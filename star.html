@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no , user-scalable=no">
+		<title></title>
+		<style type="text/css">
+			html , body {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+				/*font-family: "Microsoft Yahei", "PingFangSC-Regular";*/
+				font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+			}
+			.star{
+				display: inline-block;
+				vertical-align: middle;
+				width: 26px;
+				height: 26px;
+			}
+			
+			canvas{
+				position: absolute;
+				z-index: -1;
+			}
+			.star-all{
+				display: inline-block;
+			}
+			.header{
+				width: 100%;
+			}
+			.header h3{
+				width: 100%;
+			    background: #f8f9fa; 
+			    color: blue;
+			    text-align: center;
+			    margin: 0;
+			    padding: 10px;
+			}
+			.content{
+				padding: 0 8%;
+			}
+			.content>div{
+				padding: 10px;
+			}
+			.form-control {
+			    display: block;
+			    width: 100%;
+			    padding: .375rem .75rem;
+			    font-size: 1rem;
+			    line-height: 1.5;
+			    color: #495057;
+			    background-color: #fff;
+			    background-clip: padding-box;
+			    border: 1px solid #ced4da;
+			    border-radius: .25rem;
+			    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+			}
+			
+			.evaluation-suggestion{
+				display: flex;
+			}
+			textarea {
+			    overflow: auto;
+			    resize: vertical;
+			    flex: 1;
+			}
+			.title-padding{
+				padding-right: 50px;
+			}
+			.evaluation-mean{
+				padding-left: 50px;
+			}
+			.bk-button.bk-primary {
+			    background: #3c96ff;
+			    border-color: #3c96ff;
+			    color: #fff;
+			}
+			.bk-button {
+			    height: 36px;
+			    line-height: 34px;
+			    display: inline-block;
+			    white-space: nowrap;
+			    outline: none;
+			    cursor: pointer;
+			    white-space: nowrap;
+			    -webkit-appearance: none;
+			    padding: 0 19px;
+			    text-align: center;
+			    vertical-align: middle;
+			    font-size: 14px;
+			    background: #ffffff;
+			    border: 1px solid #c3cdd7;
+			    border-radius: 4px;
+			    box-sizing: border-box;
+			    color: #737987;
+			    text-decoration: none;
+			    transition: background-color ease 0.3s;
+			}
+			
+			/*mobile-phone*/
+			@media only screen and (max-width: 500px) {
+			    .title-padding{
+				padding-right: 8px;
+				}
+				.evaluation-mean{
+					padding-left: 8px;
+				}
+				.content{
+					padding: 0 2%;
+				}
+			}
+
+
+			/*遮罩*/
+			/*position: absolute;*/
+    		/*background-color: rgba(255, 255, 255, 0.9);*/
+			.bk-loading {
+			  width: 100%;
+			  height: 100%;
+			  position: absolute;
+			  top: 0;
+			  right: 0;
+			  bottom: 0;
+			  left: 0;
+			  margin: auto;
+			  background-color: rgba(255, 255, 255, 0.9);
+			  z-index: 1000;
+			}
+			.bk-loading .bk-loading-wrapper {
+			  text-align: center;
+			  line-height: 1;
+			  position: absolute;
+			  left: 50%;
+			  top: 50%;
+			  transform: translate(-50%, -50%);
+			  -webkit-transform: translate(-50%, -50%);
+			}
+			.bk-loading-title {
+			  text-align: center;
+			  font-size: 14px;
+			  color: #737987;
+			  line-height: initial;
+			  margin-top: 5px;
+			}
+			.bk-loading .bk-loading1 {
+			  position: relative;
+			  width: 75px;
+			  height: 14px;
+			  margin: auto;
+			  display: inline-block;
+			}
+			.bk-loading .bk-loading1 .point {
+			  position: absolute;
+			  top: 0;
+			  width: 14px;
+			  height: 14px;
+			  animation-name: scale-animate;
+			  animation-duration: .8s;
+			  animation-iteration-count: infinite;
+			  animation-direction: normal;
+			  transform: scale(0.6);
+			  border-radius: 19px;
+			}
+			.bk-loading .bk-loading1 .point1 {
+			  background-color: #fd6154;
+			  left: 0;
+			  animation-delay: 0.1s;
+			}
+			.bk-loading .bk-loading1 .point2 {
+			  background-color: #ffb726;
+			  left: 20px;
+			  animation-delay: 0.25s;
+			}
+			.bk-loading .bk-loading1 .point3 {
+			  background-color: #4cd084;
+			  left: 40px;
+			  animation-delay: 0.4s;
+			}
+			.bk-loading .bk-loading1 .point4 {
+			  background-color: #57a3f1;
+			  left: 60px;
+			  animation-delay: 0.55s;
+			}
+			@keyframes scale-animate {
+				0% {
+				    transform: scale(1);
+				}
+				100% {
+				    transform: scale(0.6);
+				}
+			}
+			@-webkit-keyframes scale-animate {
+				0% {
+				    -webkit-transform: scale(1);
+				}
+				100% {
+				    -webkit-transform: scale(0.6);
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="header">
+			<h3>ITSM - 服务评价</h3>
+		</div>
+		<div class="content">
+			<div class="">
+				<span class="title-padding">服务单号:</span>
+				<span class="service-num"></span>
+			</div>
+			<div class="">
+				<span class="title-padding">服务标题:</span>
+				<span class="service-title"></span>
+			</div>
+			<div class="evaluation">
+				<span class="title-padding">星级评价:</span>
+				<div class="star-all">
+					<div class="star" data-index="1" data-fill="false">
+						<canvas id="canvas1" width="26" height="26"></canvas>
+					</div>
+					<div class="star" data-index="2" data-fill="false">
+						<canvas id="canvas2" width="26" height="26"></canvas>
+					</div>
+					<div class="star" data-index="3" data-fill="false">
+						<canvas id="canvas3" width="26" height="26"></canvas>
+					</div>
+					<div class="star" data-index="4" data-fill="false">
+						<canvas id="canvas4" width="26" height="26"></canvas>
+					</div>
+					<div class="star" data-index="5" data-fill="false">
+						<canvas id="canvas5" width="26" height="26"></canvas>
+					</div>
+				</div>
+				<span class="evaluation-mean"></span>
+			</div>
+			<div class="evaluation-suggestion">
+				<span class="title-padding">评论意见:</span>
+				<textarea class="form-control" id="comment" rows="5" cols="" placeholder="您的意见是我们持续改进的动力~"></textarea>
+			</div>
+			<div class="">
+				<button title="提交评价" class="bk-button bk-primary">提交评价</button>
+			</div>
+		</div>
+		<!--遮罩-->
+		<div class="bk-loading" style="position: absolute; background-color: rgba(255, 255, 255, 0.9); display: none;">	
+			<div class="bk-loading-wrapper">
+				<div class="bk-loading1">
+					<div class="point point1"></div> 
+					<div class="point point2"></div> 
+					<div class="point point3"></div> 
+					<div class="point point4"></div>
+				</div> 
+				<div class="bk-loading-title">提交中
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			//console.log()
+			// 获取service-num/service-title -- url
+			// 根据 单号service-num 判断是否已评价
+			// 页面地址如下
+			// http://dev.paas-poc.o.qcloud.com:8004/#/commonPrint?ticket_id=241&service-num=NO2018234332342423&service-title=网络故障处理
+			// 数据采集
+			function getParam(search , paramName) {
+			    var paramValue = "",  isFound = false
+			    if (search.indexOf("?") == 0 && search.indexOf("=") > 1) {
+			        var arrSource = unescape(search).substring(1, search.length).split("&")
+			        //unescape() 函数可对通过 escape() 编码的字符串进行解码。
+			        //substring() 方法用于提取字符串中介于两个指定下标之间的字符。
+			        var i = 0
+			        while(i < arrSource.length && !isFound ) 
+			        {	if(arrSource[i].indexOf("=") > 0 && arrSource[i].split("=")[0].toLowerCase() == paramName.toLowerCase()){
+			        	paramValue = arrSource[i].split("=")[1]; isFound = !isFound;
+			        };
+			        	 i++}
+			        i=0
+			    }
+			    console.log(arrSource,paramValue)
+			    return paramValue == "" && (paramValue = null), paramValue
+			}
+			//production
+			//var search = this.location.search
+			//development
+			var search = '?ticket_id=241&service_num=NO2018234332342423&service_title=网络故障处理'
+			var ticket_id = getParam(search,'ticket_id')
+			var service_num = getParam(search,'service_num')
+			var service_title = getParam(search,'service_title')
+			console.log(ticket_id,service_num,service_title)
+			document.querySelector('.service-num').innerHTML = service_num
+			document.querySelector('.service-title').innerHTML = service_title
+			
+			// 获取评论状态
+			function get_state(id){
+				var xhr = new XMLHttpRequest();
+				xhr.open('GET', `paas-poc.o.qcloud.com/t/itsm/api/ticket/comments/${id}/`, true);
+				xhr.onreadystatechange = function(e) {
+				  if (this.readyState == 4 && this.status == 200) {
+				    console.log(this.response,this.responseText)
+				    if('已评论'){
+				    	response={
+				    		stars : '3',
+				    		comments : '不错有不错有不错有不错有不错有不错有不错有不错有不错有不错有不错有不错有不错有不错有不错有不错有'
+				    	}
+				    	evaluated_page_show(response)
+				    	
+				    }else{
+				    	//未评论
+						evaluating_page_show()	    	
+				    }
+				  }
+				};
+				xhr.send();
+			}
+			// 验证 有无评论
+			//get_state(ticket_id)
+			
+			// 提交数据--post
+			var background_data = {
+				'service_num':'',
+				'star':'',
+				'coments':''
+			}
+			function sendAjax() {
+			 	  //构造表单数据
+				  var formData = new FormData();
+				  formData.append('service_num', background_data.service_num);
+				  formData.append('star', background_data.star);
+				  formData.append('coments', background_data.coments);
+				  
+				  var xhr = new XMLHttpRequest();
+				  //设置xhr请求的超时时间
+				  xhr.timeout = 3000;//同步请求设置为0\若请求不到数据、页面一直卡着
+				  //设置响应返回的数据格式
+				  //xhr.responseType = "text";
+				  //创建一个 post 请求，采用异步
+				  xhr.open('POST', '/server', true);
+				  // xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+				  // application/json
+				  //注册相关事件回调处理函数
+				  xhr.onload = function(e) { //当请求成功完成时触发，此时xhr.readystate=4
+				    if((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304){
+				        alert(this.responseText,this.response);
+				    }
+				  };
+				  xhr.ontimeout = function(e) { console.log('请求超时') };
+				  xhr.onerror = function(e) { console.log('请求出错') };
+				  //发送数据
+				  xhr.send(formData);
+			}
+			
+			
+//			post_evaluation = function(){
+//				//console.log('提交数据')
+//				xhr = new plus.net.XMLHttpRequest();
+//				xhr.onreadystatechange = function () {
+//				    switch ( xhr.readyState ) {     
+//				        case 4:
+//				            if ( xhr.status == 200 ) {
+//				                alert( "xhr请求成功："+xhr.responseText );               
+//				            } else {
+//				                alert( "xhr请求失败："+xhr.readyState );
+//				
+//				            }
+//				            break;
+//				    }
+//				}
+//				xhr.open( "POST", "http://www.xxxxx.cn/test.php");
+//				xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+//				xhr.send('name=hehe');
+//			}
+			
+			// star - star
+			var evaluation_mean_list = ['非常不满意','不满意','一般','满意','非常满意']
+			function print_star(id,j=false){
+				// star-size
+				var size = 1.2
+				var canvas = document.getElementById(`canvas${id}`);   
+			    var context = canvas.getContext("2d");
+			    //清空画布
+			    context.clearRect(0,0,26,26); 
+			    context.beginPath();   
+			    //设置是个顶点的坐标，根据顶点制定路径   
+			    for (var i = 0; i < 5; i++) {   
+			        context.lineTo(Math.cos((18+i*72)/180*Math.PI)*10.0*size+10.0*size,   
+			                        -Math.sin((18+i*72)/180*Math.PI)*10.0*size+10.0*size);   
+			        context.lineTo(Math.cos((54+i*72)/180*Math.PI)*4.0*size+10.0*size,   
+			                        -Math.sin((54+i*72)/180*Math.PI)*4.0*size+10.0*size);   
+			    }   
+			    context.closePath();   
+			    //设置边框样式以及填充颜色   
+			    context.lineWidth="1";			      
+			    if(j){
+			    	context.fillStyle = "#ffc107";
+			    	context.fill();
+			    	
+			    }
+			    context.strokeStyle = "#fd7e14";
+			    context.stroke(); 
+			}
+			function print_blank (){
+				print_star(1)
+				print_star(2)
+				print_star(3)
+				print_star(4)
+				print_star(5)
+				var star_all = document.querySelectorAll('.star')
+				for (let i =0 ; i<star_all.length ; i++ ){
+					star_all[i].dataset.fill = "false"
+				}
+				
+			}
+			print_blank()
+		
+			// 展示页面	
+			//已评论
+			function evaluated_page_show(response){				
+				for(let i_ = 0 ; i_<response.stars ; i_++){
+					print_star((i_+1),true)
+				}
+				document.querySelector('.evaluation-mean').innerHTML=evaluation_mean_list[response.stars-1]
+				document.querySelector('textarea').value = response.comments
+				document.querySelector('textarea').readOnly=true
+				var button_e = document.querySelector('.bk-button')
+				//页面状态改变
+				button_e.innerHTML = '已评论'
+
+				button_e.style.background='#9E9E9E'
+				button_e.style.borderColor='#9E9E9E'
+				button_e.disabled = true
+			}
+			var response = {
+			    		stars : '3',
+			    		comments : '不错有不错有不错有不错有不错有不错有不错有不错有不错有不错有不错有不错有不错有不错有不错有不错有'
+			    	}
+			//evaluated_page_show(response)
+			
+			//未评论
+			function evaluating_page_show(){
+				// 绑定  button 监听 -- 提交按钮  
+				var button_e = document.querySelector('.bk-button')
+				button_e.addEventListener("click",function(e){
+					console.log('提交数据')
+					// 判断 star-star
+					var star_star = false
+					var star_all = document.querySelectorAll('.star')
+					for (let i =0 ; i<star_all.length ; i++ ){
+						star_star = star_star || star_all[i].dataset.fill == "true"
+					}
+					if(star_star){
+						document.querySelector('.bk-loading').style.display='block'
+						setTimeout(()=>{document.querySelector('.bk-loading').style.display='none';window.location.reload()},2000)
+						
+						// 提交数据
+						//sendAjax()
+					}else{
+						alert('评价是必填项')
+					}
+					
+				})
+				// 1.绑定 star 监听事件  2.
+				var star_all = document.querySelectorAll('.star')
+				for (let i =0 ; i<star_all.length ; i++ ){
+					star_all[i].addEventListener("click",function(e){
+						print_blank()
+						console.log(e.target,e.target.dataset.index)
+						for(let i_ = 0 ; i_<e.target.dataset.index ; i_++){
+							print_star((i_+1),true)
+							star_all[i_].dataset.fill = "true"
+						}
+						document.querySelector('.evaluation-mean').innerHTML=evaluation_mean_list[e.target.dataset.index-1]
+						//print_star(1,true)
+						//console.log(e)
+					})
+				}
+			}
+			evaluating_page_show()
+			
+		</script>
+		
+	</body>
+</html>
