@@ -2,12 +2,16 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no , user-scalable=no">
+		<!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0 , maximum-scale=1.0 , shrink-to-fit=no , user-scalable=no">-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 		<title></title>
 		<style type="text/css">
 			html , body {
-				margin: 0;
-				padding: 0;
+				font-size: 14px;
+				min-width: 980px;
+				margin: 0px;
+				padding: 0px;
+				border: 0px; 
 				box-sizing: border-box;
 				/*font-family: "Microsoft Yahei", "PingFangSC-Regular";*/
 				font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
@@ -15,8 +19,8 @@
 			.star{
 				display: inline-block;
 				vertical-align: middle;
-				width: 26px;
-				height: 26px;
+				width: 22px;
+				height: 22px;
 			}
 			
 			canvas{
@@ -36,6 +40,7 @@
 			    text-align: center;
 			    margin: 0;
 			    padding: 10px;
+			    box-sizing: border-box;
 			}
 			.content{
 				padding: 0 8%;
@@ -108,6 +113,16 @@
 				}
 				.content{
 					padding: 0 2%;
+				}
+				html , body {
+					font-size: 14px;
+					min-width: 320px;
+					margin: 0px;
+					padding: 0px;
+					border: 0px; 
+					box-sizing: border-box;
+					/*font-family: "Microsoft Yahei", "PingFangSC-Regular";*/
+					font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
 				}
 			}
 
@@ -201,60 +216,63 @@
 		</style>
 	</head>
 	<body>
-		<div class="header">
-			<h3>ITSM - 服务评价</h3>
-		</div>
-		<div class="content">
-			<div class="">
-				<span class="title-padding">服务单号:</span>
-				<span class="service-num"></span>
+		<div id="">
+			<div class="header">
+				<h3>ITSM - 服务评价</h3>
 			</div>
-			<div class="">
-				<span class="title-padding">服务标题:</span>
-				<span class="service-title"></span>
-			</div>
-			<div class="evaluation">
-				<span class="title-padding">星级评价:</span>
-				<div class="star-all">
-					<div class="star" data-index="1" data-fill="false">
-						<canvas id="canvas1" width="26" height="26"></canvas>
-					</div>
-					<div class="star" data-index="2" data-fill="false">
-						<canvas id="canvas2" width="26" height="26"></canvas>
-					</div>
-					<div class="star" data-index="3" data-fill="false">
-						<canvas id="canvas3" width="26" height="26"></canvas>
-					</div>
-					<div class="star" data-index="4" data-fill="false">
-						<canvas id="canvas4" width="26" height="26"></canvas>
-					</div>
-					<div class="star" data-index="5" data-fill="false">
-						<canvas id="canvas5" width="26" height="26"></canvas>
-					</div>
+			<div class="content">
+				<div class="">
+					<span class="title-padding">服务单号:</span>
+					<span class="service-num"></span>
 				</div>
-				<span class="evaluation-mean"></span>
-			</div>
-			<div class="evaluation-suggestion">
-				<span class="title-padding">评论意见:</span>
-				<textarea class="form-control" id="comment" rows="5" cols="" placeholder="您的意见是我们持续改进的动力~"></textarea>
-			</div>
-			<div class="">
-				<button title="提交评价" class="bk-button bk-primary">提交评价</button>
-			</div>
-		</div>
-		<!--遮罩-->
-		<div class="bk-loading" style="position: absolute; background-color: rgba(255, 255, 255, 0.9); display: none;">	
-			<div class="bk-loading-wrapper">
-				<div class="bk-loading1">
-					<div class="point point1"></div> 
-					<div class="point point2"></div> 
-					<div class="point point3"></div> 
-					<div class="point point4"></div>
-				</div> 
-				<div class="bk-loading-title">提交中
+				<div class="">
+					<span class="title-padding">服务标题:</span>
+					<span class="service-title"></span>
+				</div>
+				<div class="evaluation">
+					<span class="title-padding">星级评价:</span>
+					<div class="star-all">
+						<div class="star" data-index="1" data-fill="false">
+							<canvas id="canvas1" width="26" height="26"></canvas>
+						</div>
+						<div class="star" data-index="2" data-fill="false">
+							<canvas id="canvas2" width="26" height="26"></canvas>
+						</div>
+						<div class="star" data-index="3" data-fill="false">
+							<canvas id="canvas3" width="26" height="26"></canvas>
+						</div>
+						<div class="star" data-index="4" data-fill="false">
+							<canvas id="canvas4" width="26" height="26"></canvas>
+						</div>
+						<div class="star" data-index="5" data-fill="false">
+							<canvas id="canvas5" width="26" height="26"></canvas>
+						</div>
+					</div>
+					<span class="evaluation-mean"></span>
+				</div>
+				<div class="evaluation-suggestion">
+					<span class="title-padding">评论意见:</span>
+					<textarea class="form-control" id="comment" rows="5" cols="" placeholder="您的意见是我们持续改进的动力~"></textarea>
+				</div>
+				<div class="">
+					<button title="提交评价" class="bk-button bk-primary">提交评价</button>
 				</div>
 			</div>
+			<!--遮罩-->
+			<!--<div class="bk-loading" style="position: absolute; background-color: rgba(255, 255, 255, 0.9); display: none;">	
+				<div class="bk-loading-wrapper">
+					<div class="bk-loading1">
+						<div class="point point1"></div> 
+						<div class="point point2"></div> 
+						<div class="point point3"></div> 
+						<div class="point point4"></div>
+					</div> 
+					<div class="bk-loading-title">提交中
+					</div>
+				</div>
+			</div>-->
 		</div>
+		
 
 		<script type="text/javascript">
 			//console.log()
@@ -375,7 +393,7 @@
 			var evaluation_mean_list = ['非常不满意','不满意','一般','满意','非常满意']
 			function print_star(id,j=false){
 				// star-size
-				var size = 1.2
+				var size = 1
 				var canvas = document.getElementById(`canvas${id}`);   
 			    var context = canvas.getContext("2d");
 			    //清空画布
